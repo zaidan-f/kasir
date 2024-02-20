@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664395123621",
+    "project_id": "kasir-fcb3c",
+    "storage_bucket": "kasir-fcb3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664395123621:android:0deaa8057b8e68ef7c364c",
+        "android_client_info": {
+          "package_name": "com.example.fireflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqIsLeoT09HHh-XEkgo4WKQHCt4j-9cqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
