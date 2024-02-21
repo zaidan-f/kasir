@@ -8,6 +8,7 @@ import 'transaksi.dart';
 import 'profil.dart';
 import 'drawer.dart';
 import 'list_barang.dart';
+import 'transaksi_roma.dart';
 
 User loggedinUser;
 
@@ -31,7 +32,7 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
   Widget _beranda = Beranda();
   Widget _pelanggan = Pelanggan();
   Widget _produk = ListBarangWidget();
-  Widget _transaksi = TransaksiDetailWidget();
+  Widget _transaksi = TransaksiDetailWidget1();
   Widget _profil = Profile();
 
   void _changeSelectedNavBar(int index) {
