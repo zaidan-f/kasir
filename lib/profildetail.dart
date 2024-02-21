@@ -13,7 +13,7 @@ class Detailprofil extends StatelessWidget {
     String provinsi = userData['provinsi'] ?? 'No provinsi';
     String kodepos = userData['kodepos'] ?? 'No kodepos';
 
-    return '$alamat, $kelurahan, $kecamatan, $kota, $provinsi $kodepos';
+    return '$alamat, $kelurahan, Kec.$kecamatan, Kota $kota, $provinsi $kodepos';
   }
 
   Future<Map<String, dynamic>> getUserData() async {

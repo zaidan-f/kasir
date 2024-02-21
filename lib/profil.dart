@@ -4,6 +4,7 @@ import 'home_roma.dart';
 import 'disclaimer.dart';
 import 'ketentuanlayanan.dart';
 import 'profildetail.dart';
+import 'profildetail_toko.dart';
 
 // class Profile extends StatelessWidget {
 //   @override
@@ -171,8 +172,11 @@ class Profile extends StatelessWidget {
             padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
             child: InkWell(
               onTap: () {
-                // Tindakan yang ingin dilakukan ketika container diklik
-                print('Container Diklik!');
+                // Navigate to InformasiTokoScreen when the ListTile is tapped
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Detailtoko()),
+                );
               },
               child: Container(
                 width: double.infinity,
