@@ -44,63 +44,158 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Email Input Field
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                  // Do something with the user input.
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your email',
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 0),
+                child: Text(
+                  'Selamat datang kembali!',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Text(
+                  "Email",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF1F4F8),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      // textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        email = value;
+                        // Do something with the user input.
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Input email',
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      ),
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                      cursorColor: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              // TextField(
+              //   keyboardType: TextInputType.emailAddress,
+              //   textAlign: TextAlign.center,
+              //   onChanged: (value) {
+              //     email = value;
+              //     // Do something with the user input.
+              //   },
+              //   decoration: kTextFieldDecoration.copyWith(
+              //     hintText: 'Enter your email',
+              //   ),
+              // ),
+              SizedBox(
+                height: 10.0,
+              ),
+
               // Password Input Field
-              TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  password = value;
-                  // Do something with the user input.
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password.',
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Text(
+                  "Password",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF1F4F8),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      obscureText: true,
+                      // textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        password = value;
+                        // Do something with the user input.
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Input password',
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      ),
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                      cursorColor: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              // TextField(
+              //   obscureText: true,
+              //   textAlign: TextAlign.center,
+              //   onChanged: (value) {
+              //     password = value;
+              //     // Do something with the user input.
+              //   },
+              //   decoration: kTextFieldDecoration.copyWith(
+              //     hintText: 'Enter your password.',
+              //   ),
+              // ),
               SizedBox(
-                height: 24.0,
+                height: 20.0,
               ),
               // Login Button
-              RoundedButton(
-                colour: Colors.lightBlueAccent,
-                title: 'Log In',
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    // Sign in with email and password
-                    final user = await _auth.signInWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: RoundedButton(
+                  colour: Colors.red,
+                  title: 'Log In',
+                  onPressed: () async {
+                    setState(() {
+                      showSpinner = true;
+                    });
+                    try {
+                      // Sign in with email and password
+                      final user = await _auth.signInWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
 
-                    if (user != null) {
-                      // Navigate to the home screen after successful login
-                      Navigator.pushNamed(context, 'home_roma');
+                      if (user != null) {
+                        // Navigate to the home screen after successful login
+                        Navigator.pushNamed(context, 'home_roma');
+                      }
+                    } catch (e) {
+                      // Print any errors for debugging
+                      print(e);
                     }
-                  } catch (e) {
-                    // Print any errors for debugging
-                    print(e);
-                  }
-                  setState(() {
-                    showSpinner = false;
-                  });
-                },
+                    setState(() {
+                      showSpinner = false;
+                    });
+                  },
+                ),
               ),
             ],
           ),

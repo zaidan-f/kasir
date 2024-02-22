@@ -20,16 +20,24 @@ class DrawerWidget extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
+                // Image.asset(
+                //   'assets/logo.png',
+                //   fit: BoxFit.cover,
+                // ),
                 UserAccountsDrawerHeader(
                   decoration: BoxDecoration(
                     color: Colors.red,
                   ),
-                  currentAccountPicture: ClipOval(
-                    child: Image(
-                      image: NetworkImage(
-                          'https://i.pinimg.com/236x/0e/16/21/0e162133b4ece9ea4ce147b2f7140748.jpg'),
-                      fit: BoxFit.cover,
-                    ),
+                  // currentAccountPicture: ClipOval(
+                  //   child: Image(
+                  //     image: NetworkImage(
+                  //         'https://i.pinimg.com/236x/0e/16/21/0e162133b4ece9ea4ce147b2f7140748.jpg'),
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: AssetImage('assets/image/logo.png'),
+                    radius: 30,
                   ),
                   accountName: Text(
                       'Selamat Datang, ${_auth.currentUser?.displayName ?? "Pengguna"}'),

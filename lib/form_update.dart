@@ -2,19 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'list_barang_roma.dart';
 
-class FormPage extends StatefulWidget {
+class FormPageUpdate extends StatefulWidget {
   //constructor have one parameter, optional paramter
   //if have id we will show data and run update method
   //else run add data
-  const FormPage({this.id});
+  const FormPageUpdate({this.id});
 
   final String id;
 
   @override
-  State<FormPage> createState() => _FormPageState();
+  State<FormPageUpdate> createState() => _FormPageState();
 }
 
-class _FormPageState extends State<FormPage> {
+class _FormPageState extends State<FormPageUpdate> {
   //set form key
   final _formKey = GlobalKey<FormState>();
 
@@ -87,7 +87,7 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tambah Produk"),
+        title: Text("Update Data Produk"),
         backgroundColor: Colors.red,
         actions: [
           //if have data show delete button
@@ -406,7 +406,7 @@ class _FormPageState extends State<FormPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                "Simpan",
+                "Update",
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -439,7 +439,7 @@ class _FormPageState extends State<FormPage> {
                 }
                 //snackbar notification
                 final snackBar =
-                    SnackBar(content: Text('Data saved successfully!'));
+                    SnackBar(content: Text('Data updated successfully!'));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                 //back to main page

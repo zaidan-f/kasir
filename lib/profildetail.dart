@@ -50,7 +50,12 @@ class Detailprofil extends StatelessWidget {
             future: getUserData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(); // Menampilkan loading indicator jika data masih diambil.
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.red), // Memberikan warna merah pada indicator
+                  ),
+                ); // Menampilkan loading indicator jika data masih diambil.
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {

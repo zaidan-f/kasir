@@ -220,15 +220,14 @@ class Pelanggan extends StatefulWidget {
 }
 
 class _PelangganState extends State<Pelanggan> {
+  final FirebaseFirestore firebase = FirebaseFirestore.instance;
+  CollectionReference pelanggan =
+      FirebaseFirestore.instance.collection('pelanggan');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Daftar pelanggan'),
-        backgroundColor: Color(0xFFc42e1d),
-      ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('pelanggan').snapshots(),
+        stream: pelanggan.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -239,31 +238,74 @@ class _PelangganState extends State<Pelanggan> {
           if (snapshot.data.docs.isEmpty) {
             return Center(child: Text('No Data'));
           }
+
+          var customerList = snapshot.data.docs;
+
+          customerList.sort((a, b) {
+            var namaProdukA =
+                a.data()['nama_pelanggan'].toString().toLowerCase();
+            var namaProdukB =
+                b.data()['nama_pelanggan'].toString().toLowerCase();
+            return namaProdukA.compareTo(namaProdukB);
+          });
+
           return ListView.builder(
-            itemCount: snapshot.data.docs.length,
+            itemCount: customerList.length,
             itemBuilder: (context, index) {
-              var data = snapshot.data.docs[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.red,
-                  child: Text(
-                    data['nama_pelanggan'][0],
-                    style: TextStyle(color: Colors.white),
-                  ),
+              var data = customerList[index].data();
+
+              // var data = snapshot.data.docs[index];
+              return Container(
+                margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
                 ),
-                title: Text(data['nama_pelanggan'],
-                    style: TextStyle(fontSize: 20)),
-                subtitle:
-                    Text(data['nomor_telepon'], style: TextStyle(fontSize: 16)),
-                trailing: IconButton(
-                  icon: Icon(Icons.arrow_forward_rounded),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Tambahcus(id: data.id)),
-                    );
-                  },
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.red,
+                    child: Text(
+                      data['nama_pelanggan'][0],
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  title: Text(data['nama_pelanggan'],
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: Text(data['nomor_telepon'],
+                      style: TextStyle(fontSize: 16)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.info),
+                        onPressed: () {
+                          _showDetailPopUp(context, data);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          _navigateToUpdateForm(
+                              context, customerList[index].id);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          _showDeleteConfirmationDialog(
+                              context, customerList[index].id);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -281,6 +323,123 @@ class _PelangganState extends State<Pelanggan> {
         backgroundColor: Colors.red,
       ),
     );
+  }
+
+  String getAddressString(Map<String, dynamic> data) {
+    String alamat = data['alamat_jalan'] ?? 'No alamat';
+    String kelurahan = data['alamat_kelurahandesa'] ?? 'No kelurahan';
+    String kecamatan = data['alamat_kecamatan'] ?? 'No kecamatan';
+    String kota = data['alamat_kabupatenkota'] ?? 'No kota';
+    String provinsi = data['alamat_provinsi'] ?? 'No provinsi';
+    String kodepos = data['alamat_kodepos'] ?? 'No kodepos';
+
+    return 'Alamat : $alamat, $kelurahan, Kec.$kecamatan, Kota $kota, $provinsi $kodepos';
+  }
+
+  // Fungsi untuk menampilkan pop-up detail produk
+  Future<void> _showDetailPopUp(
+      BuildContext context, Map<String, dynamic> data) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(
+                Icons.info,
+                // color: Colors.red, // Warna ikon
+              ),
+              SizedBox(width: 8), // Jarak antara ikon dan teks
+              Text(
+                'Detail Pelanggan',
+                style: TextStyle(
+                    // color: Colors.red, // Warna teks
+                    ),
+              ),
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Nama Pelanggan: \n ${data['nama_pelanggan']} \n'),
+              Text('Nomor Telepon: \n ${data['nomor_telepon']} \n'),
+              Text(
+                getAddressString(data),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Tutup',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _navigateToUpdateForm(BuildContext context, String customerId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Tambahcus(id: customerId),
+      ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, String customerId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Konfirmasi Hapus',
+            style: TextStyle(
+              color: Colors.red, // Warna teks
+            ),
+          ),
+          content: Text('Apakah Anda yakin ingin menghapus produk ini?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Batal',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteProduct(customerId);
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Hapus',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteProduct(String customerId) {
+    pelanggan.doc(customerId).delete();
   }
 }
 
@@ -342,88 +501,322 @@ class _TambahcusState extends State<Tambahcus> {
           key: _formKey,
           child: ListView(
             children: [
+              SizedBox(height: 10),
+              Text(
+                'Nama pelanggan', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Nama Pelanggan'),
+                decoration: InputDecoration(
+                  hintText: "Input nama pelangan",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Harap isi bidang ini!';
                   }
                   return null;
                 },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
               ),
-              TextFormField(
-                controller: alamatController,
-                decoration: InputDecoration(labelText: 'Alamat Jalan'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
+              SizedBox(height: 10),
+              Text(
+                'Nomor Telepon', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              TextFormField(
-                controller: kelurahanController,
-                decoration: InputDecoration(labelText: 'Kelurahan'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: kecamatanController,
-                decoration: InputDecoration(labelText: 'Deskripsi Kecamatan'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: kodeposController,
-                decoration: InputDecoration(labelText: 'Kodepos Pelanggan'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: kotaController,
-                decoration: InputDecoration(labelText: 'Kota Pelanggan'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-              ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: notlpController,
-                decoration: InputDecoration(labelText: 'Nomor Telepon'),
+                decoration: InputDecoration(
+                  hintText: "Input nomor telepon",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Harap isi bidang ini!';
                   }
                   return null;
                 },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
               ),
+              SizedBox(height: 10),
+              Text(
+                'Alamat jalan', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: alamatController,
+                decoration: InputDecoration(
+                  hintText: "Input alamat jalan",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Harap isi bidang ini!';
+                  }
+                  return null;
+                },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Kelurahan', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: kelurahanController,
+                decoration: InputDecoration(
+                  hintText: "Input kelurahan",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Harap isi bidang ini!';
+                  }
+                  return null;
+                },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Kecamatan', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: kecamatanController,
+                decoration: InputDecoration(
+                  hintText: "Input kecamatan",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Harap isi bidang ini!';
+                  }
+                  return null;
+                },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Kota', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: kotaController,
+                decoration: InputDecoration(
+                  hintText: "Input kota",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Harap isi bidang ini!';
+                  }
+                  return null;
+                },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Provinsi', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: provinsiController,
-                decoration: InputDecoration(labelText: 'Provinsi Pelanggan'),
+                decoration: InputDecoration(
+                  hintText: "Input provinsi",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Harap isi bidang ini!';
                   }
                   return null;
                 },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Kode pos', // Add label for masa berlaku diskon
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: kodeposController,
+                decoration: InputDecoration(
+                  hintText: "Input kode pos",
+                  filled: true,
+                  fillColor: Color(0xFFF1F4F8),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none, // Hapus border focus
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Harap isi bidang ini!';
+                  }
+                  return null;
+                },
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                cursorColor: Colors.red,
               ),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  primary: Colors.red,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(widget.id != null ? 'Update' : 'Simpan'),
+                ),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     if (widget.id == null) {
@@ -458,7 +851,7 @@ class _TambahcusState extends State<Tambahcus> {
                     Navigator.pop(context);
                   }
                 },
-                child: Text(widget.id != null ? 'Update' : 'Simpan'),
+                // child: Text(widget.id != null ? 'Update' : 'Simpan'),
               ),
             ],
           ),

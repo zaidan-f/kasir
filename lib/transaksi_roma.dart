@@ -1199,6 +1199,118 @@ class CheckoutPage extends StatelessWidget {
   }
 }
 
+// class DetailTransaksi extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         leading: IconButton(
+//           icon: Icon(Icons.arrow_back),
+//           onPressed: () {
+//             Navigator.of(context).pop();
+//           },
+//         ),
+//         title: Text('Detail Transaksi'),
+//         backgroundColor: Colors.red,
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisSize: MainAxisSize.max,
+//           children: [
+//             Expanded(
+//               child: SingleChildScrollView(
+//                 child: Column(
+//                   mainAxisSize: MainAxisSize.max,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Padding(
+//                       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           Text('Product',
+//                               style: TextStyle(fontWeight: FontWeight.bold)),
+//                           SizedBox(width: 60),
+//                           Text('Qty',
+//                               style: TextStyle(fontWeight: FontWeight.bold)),
+//                           SizedBox(width: 60),
+//                         ],
+//                       ),
+//                     ),
+//                     // Menampilkan data dari koleksi detail_transaksi
+//                     StreamBuilder(
+//                       stream: FirebaseFirestore.instance
+//                           .collection('detail_transaksi')
+//                           .snapshots(),
+//                       builder: (context, snapshot) {
+//                         if (!snapshot.hasData) {
+//                           return CircularProgressIndicator();
+//                         }
+//                         // Menampilkan data dalam bentuk list
+//                         return Column(
+//                           crossAxisAlignment: CrossAxisAlignment.center,
+//                           children: snapshot.data.docs.map<Widget>((document) {
+//                             return FutureBuilder(
+//                               future: _getProductName(document['id_produk']),
+//                               builder: (context, productSnapshot) {
+//                                 if (productSnapshot.connectionState ==
+//                                     ConnectionState.waiting) {
+//                                   return CircularProgressIndicator();
+//                                 }
+//                                 String productName =
+//                                     productSnapshot.data ?? 'Unknown Product';
+//                                 return _buildProductRow(
+//                                   productName,
+//                                   document['qty'],
+//                                   context,
+//                                 );
+//                               },
+//                             );
+//                           }).toList(),
+//                         );
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   // Mendapatkan nama produk berdasarkan id_produk
+//   Future<String> _getProductName(String productId) async {
+//     DocumentSnapshot productSnapshot = await FirebaseFirestore.instance
+//         .collection('produk')
+//         .doc(productId)
+//         .get();
+//     return productSnapshot['nama_produk'];
+//   }
+
+//   Widget _buildProductRow(
+//       String productName, int quantity, BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Text(
+//             productName,
+//             style: Theme.of(context).textTheme.bodyText1,
+//           ),
+//           SizedBox(width: 60),
+//           Text(
+//             quantity.toString(),
+//             style: Theme.of(context).textTheme.bodyText1,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class DetailTransaksi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1233,32 +1345,42 @@ class DetailTransaksi extends StatelessWidget {
                           SizedBox(width: 60),
                           Text('Qty',
                               style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(width: 55),
-                          Text('Total',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
                           SizedBox(width: 60),
-                          Text('Option',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _buildProductRow(
-                              'Mi Goreng', '2', 'Rp 10.000', context),
-                          _buildProductRow(
-                              'Mi Goreng', '8', 'Rp 10.000', context),
-                          _buildProductRow(
-                              'Mi Goreng', '2', 'Rp 10.000', context),
-                          _buildProductRow(
-                              'Mi Goreng', '2', 'Rp 10.000', context),
-                          _buildProductRow(
-                              'Mi Goreng', '2', 'Rp 10.000', context),
-                        ],
-                      ),
+                    // Menampilkan data dari koleksi detail_transaksi
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('detail_transaksi')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        }
+                        // Menampilkan data dalam bentuk list
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: snapshot.data.docs.map<Widget>((document) {
+                            return FutureBuilder(
+                              future: _getProductName(document['id_produk']),
+                              builder: (context, productSnapshot) {
+                                if (productSnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                }
+                                String productName =
+                                    productSnapshot.data ?? 'Unknown Product';
+                                return _buildProductRow(
+                                  productName,
+                                  document['qty'],
+                                  context,
+                                );
+                              },
+                            );
+                          }).toList(),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -1270,8 +1392,17 @@ class DetailTransaksi extends StatelessWidget {
     );
   }
 
+  // Mendapatkan nama produk berdasarkan id_produk
+  Future<String> _getProductName(String productId) async {
+    DocumentSnapshot productSnapshot = await FirebaseFirestore.instance
+        .collection('produk')
+        .doc(productId)
+        .get();
+    return productSnapshot['nama_produk'];
+  }
+
   Widget _buildProductRow(
-      String productName, String quantity, String total, BuildContext context) {
+      String productName, int quantity, BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
       child: Row(
@@ -1283,30 +1414,8 @@ class DetailTransaksi extends StatelessWidget {
           ),
           SizedBox(width: 60),
           Text(
-            quantity,
+            quantity.toString(),
             style: Theme.of(context).textTheme.bodyText1,
-          ),
-          SizedBox(width: 55),
-          Text(
-            total,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          SizedBox(width: 60),
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  print('Edit button pressed');
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  print('Delete button pressed');
-                },
-              ),
-            ],
           ),
         ],
       ),

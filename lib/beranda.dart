@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'detail_transaksi.dart';
 import 'home_roma.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'profildetail.dart';
 
 class Beranda extends StatelessWidget {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,62 +26,313 @@ class Beranda extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomCard(
-                  title: 'Barang',
-                  value: '125415',
-                  isTitleBold: true,
-                  color: Color(0xFFc42e1d),
-                  textColor: Colors.white,
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 15),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3,
+                      color: Color(0x33000000),
+                      offset: Offset(0, 1),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(8),
+                  shape: BoxShape.rectangle,
                 ),
-                CustomCard(
-                  title: 'Stok Barang',
-                  value: '200',
-                  isTitleBold: true,
-                  color: Color(0xFFc42e1d),
-                  textColor: Colors.white,
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Icon(
+                              Icons.account_circle_outlined,
+                              color: Color(0xFF57636C),
+                              size: 30,
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12, 0, 0, 0),
+                                  child: Text(
+                                    '${_auth.currentUser?.displayName ?? "Pengguna"}',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12, 0, 0, 0),
+                                  child: Text(
+                                    _auth.currentUser?.email ?? "",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Navigasi ke halaman profil di sini
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Detailprofil()), // Ganti dengan halaman profil yang sesuai
+                                  );
+                                },
+                                child: Align(
+                                  alignment: AlignmentDirectional(0.9, 0),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xFF57636C),
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: Color(0xFFADADAD),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.attach_money_sharp,
+                            color: Color(0xFF57636C),
+                            size: 30,
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(12, 10, 0, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Total Omzet',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                Text(
+                                  'RP 100.000.000',
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'Outfit',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: Color(0xFFADADAD),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
+                                child: Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        color: Color(0x33000000),
+                                        // offset: Offset(0, 2),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.settings_outlined,
+                                        color: Colors.white,
+                                        size: 22,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            5, 0, 0, 0),
+                                        child: Text(
+                                          'laporan',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontFamily: 'Readex Pro',
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
+                                child: Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        color: Color(0x33000000),
+                                        offset: Offset(0, 2),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.settings_outlined,
+                                        color: Colors.white,
+                                        size: 22,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            5, 0, 0, 0),
+                                        child: Text(
+                                          'laporan',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontFamily: 'Readex Pro',
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomCard(
-                  title: 'Customer',
-                  value: '1000',
-                  isTitleBold: true,
-                  color: Color(0xFFc42e1d),
-                  textColor: Colors.white,
-                ),
-                CustomCard(
-                  title: 'Toko',
-                  value: '50',
-                  isTitleBold: true,
-                  color: Color(0xFFc42e1d),
-                  textColor: Colors.white,
-                ),
-              ],
+            Padding(
+              padding: EdgeInsets.all(
+                  8.0), // Atur nilai padding sesuai kebutuhan Anda
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: CustomCard(
+                      title: 'Barang',
+                      value: '125415',
+                      isTitleBold: true,
+                      color: Color(0xFFc42e1d),
+                      textColor: Colors.white,
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomCard(
+                      title: 'Stok Barang',
+                      value: '200',
+                      isTitleBold: true,
+                      color: Color(0xFFc42e1d),
+                      textColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomCard(
-                  title: '-------',
-                  value: '125415',
-                  isTitleBold: true,
-                  color: Color(0xFFc42e1d),
-                  textColor: Colors.white,
-                ),
-                CustomCard(
-                  title: '--------',
-                  value: '200',
-                  isTitleBold: true,
-                  color: Color(0xFFc42e1d),
-                  textColor: Colors.white,
-                ),
-              ],
+            Padding(
+              padding: EdgeInsets.all(
+                  8.0), // Atur nilai padding sesuai kebutuhan Anda
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: CustomCard(
+                      title: 'Customer',
+                      value: '1000',
+                      isTitleBold: true,
+                      color: Color(0xFFc42e1d),
+                      textColor: Colors.white,
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomCard(
+                      title: 'Toko',
+                      value: '50',
+                      isTitleBold: true,
+                      color: Color(0xFFc42e1d),
+                      textColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(
+                  8.0), // Atur nilai padding sesuai kebutuhan Anda
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: CustomCard(
+                      title: '-------',
+                      value: '125415',
+                      isTitleBold: true,
+                      color: Color(0xFFc42e1d),
+                      textColor: Colors.white,
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomCard(
+                      title: '--------',
+                      value: '200',
+                      isTitleBold: true,
+                      color: Color(0xFFc42e1d),
+                      textColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -107,7 +361,7 @@ class CustomCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8),
       child: Container(
-        width: 190,
+        width: 170,
         height: 139,
         decoration: BoxDecoration(
           color: color,
@@ -160,14 +414,19 @@ class CustomCard extends StatelessWidget {
                 //                           ),
                 //                         ),
                 child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => DetailsTransaksiWidget(),
-                        ),
-                      );
-                    },
-                    child: Text('Lihat Detail')),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DetailsTransaksiWidget(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFc42e1d),
+                  ),
+                  child: Text('Lihat Detail'),
+                ),
+
                 // child: Text(
                 //   'Lihat Detail',
                 //   style: TextStyle(
