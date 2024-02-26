@@ -180,7 +180,7 @@ class Beranda extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
-                                        Icons.settings_outlined,
+                                        Icons.analytics,
                                         color: Colors.white,
                                         size: 22,
                                       ),
@@ -224,7 +224,7 @@ class Beranda extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
-                                        Icons.settings_outlined,
+                                        Icons.shopping_cart,
                                         color: Colors.white,
                                         size: 22,
                                       ),
@@ -232,7 +232,7 @@ class Beranda extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             5, 0, 0, 0),
                                         child: Text(
-                                          'laporan',
+                                          'Transaksi',
                                           style: TextStyle(
                                             fontSize: 14.0,
                                             fontFamily: 'Readex Pro',

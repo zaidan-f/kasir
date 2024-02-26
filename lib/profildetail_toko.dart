@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'edit_toko.dart';
 
 class Detailtoko extends StatelessWidget {
   @override
@@ -36,25 +37,12 @@ class Detailtoko extends StatelessWidget {
                           width: 90,
                           height: 90,
                           decoration: BoxDecoration(
-                            // color: FlutterFlowTheme.of(context).accent2,
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: Colors.white,
                               width: 4,
                             ),
                           ),
-                          // child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(50),
-                          //   child: CachedNetworkImage(
-                          //     fadeInDuration: Duration(milliseconds: 500),
-                          //     fadeOutDuration: Duration(milliseconds: 500),
-                          //     imageUrl:
-                          //         'https://images.unsplash.com/photo-1489980557514-251d61e3eeb6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTZ8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
-                          //     width: 100,
-                          //     height: 100,
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          // ),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: Image.network(
@@ -66,7 +54,7 @@ class Detailtoko extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Andrew D.',
+                        'Bikin Laku Shop',
                         style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w600,
@@ -75,7 +63,7 @@ class Detailtoko extends StatelessWidget {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
                         child: Text(
-                          'roma@gmail.com',
+                          'Akbar Suryansyah',
                           style: TextStyle(
                             fontSize: 14,
                           ),
@@ -108,9 +96,9 @@ class Detailtoko extends StatelessWidget {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 40, 0),
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                                 child: Text(
-                                  'Nama toko',
+                                  'Jam operasional',
                                   style: TextStyle(
                                     fontSize: 14,
                                   ),
@@ -127,7 +115,7 @@ class Detailtoko extends StatelessWidget {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5, 0, 0, 0),
                                   child: Text(
-                                    'Hello World',
+                                    'Buka setiap hari \n Pukul: 07.00 - 21.00 WIB',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 14,
@@ -166,7 +154,7 @@ class Detailtoko extends StatelessWidget {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5, 0, 0, 0),
                                   child: Text(
-                                    'Hello World  fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+                                    'Bikin Laku Shop adalah destinasi belanja sehari-hari yang menawarkan kepraktisan dan kenyamanan untuk pelanggan. Dengan konsep minimarket yang modern, toko ini menyediakan berbagai produk berkualitas tinggi, mulai dari bahan makanan segar, produk kebersihan, hingga kebutuhan sehari-hari lainnya.',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 14,
@@ -205,7 +193,7 @@ class Detailtoko extends StatelessWidget {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5, 0, 0, 0),
                                   child: Text(
-                                    'Hello World',
+                                    'Jln. Raya Pisan Seribu Blok. R2',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 14,
@@ -259,15 +247,24 @@ class Detailtoko extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Text(
-                    'tambahin button edit profil',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
+                SizedBox(height: 20),
+                // ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(20),
+                //       ),
+                //       primary: Colors.red,
+                //     ),
+                //     child: Padding(
+                //       padding: const EdgeInsets.symmetric(vertical: 15),
+                //       child: Text('Edit profil'),
+                //     ),
+                //     onPressed: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(builder: (context) => EditToko()),
+                //       );
+                //     })
               ],
             ),
           ),

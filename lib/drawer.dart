@@ -4,6 +4,8 @@ import 'home_roma.dart';
 import 'login_screen.dart';
 import 'informasi_toko.dart';
 import 'kategoribarang.dart';
+import 'info_toko.dart';
+import 'profildetail_toko.dart';
 
 class DrawerWidget extends StatelessWidget {
   final User user;
@@ -48,8 +50,8 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 // ... rest of the drawer items
                 ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Detail transaksi?'),
+                  leading: Icon(Icons.recent_actors),
+                  title: Text('Riwayat transaksi'),
                   onTap: () {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped
                     Navigator.push(
@@ -59,8 +61,19 @@ class DrawerWidget extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Kategori Barang'),
+                  leading: Icon(Icons.analytics),
+                  title: Text('Laporan penjualan'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Kategoribarang()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.category),
+                  title: Text('Kategori barang'),
                   onTap: () {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped
                     Navigator.push(
@@ -82,6 +95,13 @@ class DrawerWidget extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.settings),
                   title: Text('Informasi toko'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Detailtoko()),
+                    );
+                  },
                 ),
 
                 ListTile(

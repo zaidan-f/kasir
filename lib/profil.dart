@@ -358,6 +358,7 @@ class Profile extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(height: 20),
           ////////////////////////////////////////////tambahin button logout
         ],
       ),

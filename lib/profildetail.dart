@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'editprofil.dart';
 
 class Detailprofil extends StatelessWidget {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -248,7 +249,7 @@ class Detailprofil extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             5, 0, 0, 0),
                                         child: Text(
-                                          'Hello World',
+                                          'Akbar Suryansyah',
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                             fontSize: 14,
@@ -287,46 +288,7 @@ class Detailprofil extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             5, 0, 0, 0),
                                         child: Text(
-                                          'Hello World',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 12, 12),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 27, 0),
-                                      child: Text(
-                                        'nama ',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      ':',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5, 0, 0, 0),
-                                        child: Text(
-                                          'Hello World',
+                                          'Bikin Laku Shop',
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                             fontSize: 14,
@@ -341,15 +303,25 @@ class Detailprofil extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Text(
-                          'tambahin button edit profil',
-                          style: TextStyle(
-                            fontSize: 14,
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
+                          primary: Colors.red,
                         ),
-                      ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text('Edit profil'),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EditProfile()),
+                    );
+                        }
+                      )
                     ],
                   ),
                 );

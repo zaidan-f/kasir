@@ -827,7 +827,7 @@ class TransaksiDetailWidget1 extends StatelessWidget {
         ),
         home: HomePage(),
         routes: {
-          '/cart': (context) => CartPage(),
+          // '/cart': (context) => CartPage(),
           '/checkout': (context) => CheckoutPage(),
           '/detail_transaksi': (context) => DetailTransaksi(),
         },
@@ -840,17 +840,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Select Items'),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.shopping_cart),
-        //     onPressed: () {
-        //       Navigator.pushNamed(context, '/cart');
-        //     },
-        //   ),
-        // ],
-      ),
       body: CustomerForm(),
     );
   }
@@ -914,7 +903,10 @@ class _CustomerFormState extends State<CustomerForm> {
                     icon: Icon(Icons.shopping_cart),
                     // color: Colors.red, // Atur warna ikon menjadi merah
                     onPressed: () {
-                      Navigator.pushNamed(context, '/cart');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CartPage()),
+                      );
                     },
                   ),
                 ),
@@ -934,6 +926,14 @@ class _CustomerFormState extends State<CustomerForm> {
                     },
                     decoration: InputDecoration(
                       labelText: 'Select Customer',
+                      labelStyle: TextStyle(
+                        color:
+                            Colors.black, // Mengatur warna label menjadi merah
+                      ),
+                      // Atau, jika ingin mengubah warna underline
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
                     ),
                   ),
                 ),
@@ -957,7 +957,18 @@ class _CustomerFormState extends State<CustomerForm> {
                     FirebaseFirestore.instance.collection('produk').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return Center(
+                      child: SizedBox(
+                        width:
+                            50.0, // Sesuaikan ukuran progres sesuai kebutuhan Anda
+                        height: 50.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                          strokeWidth:
+                              3.0, // Sesuaikan ketebalan garis sesuai kebutuhan Anda
+                        ),
+                      ),
+                    );
                   }
                   return ListView.builder(
                     itemCount: snapshot.data.docs.length,
@@ -1072,7 +1083,14 @@ class _CartPageState extends State<CartPage> {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shopping Cart'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white), // Ikon kembali
+          onPressed: () {
+            Navigator.pop(context); // Fungsi untuk kembali
+          },
+        ),
+        title: Text('Shopping Cart'), // Judul AppBar
+        backgroundColor: Colors.red, // Warna latar belakang AppBar
       ),
       body: ListView.builder(
         itemCount: cart.items.length,
@@ -1098,25 +1116,45 @@ class _CartPageState extends State<CartPage> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/checkout');
-                },
-                child: Text('Proceed to Checkout'),
+          padding: const EdgeInsets.all(10.0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<Cart>(context, listen: false).clearCart();
-                },
-                child: Text('Clear Cart'),
-              ),
-            ],
+              primary: Colors.red,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text('Clear Cart'),
+            ),
+            onPressed: () {
+              Provider.of<Cart>(context, listen: false).clearCart();
+            },
           ),
         ),
+
+        // child: Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: [
+        // ElevatedButton(
+        //   onPressed: () {
+        //     Navigator.pushNamed(context, '/checkout');
+        //   },
+        //   child: Text('Proceed to Checkout'),
+        // ),
+
+        // ElevatedButton(
+        //   onPressed: () {
+        //     Provider.of<Cart>(context, listen: false).clearCart();
+        //   },
+        //   child: Text('Clear Cart'),
+        // ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
@@ -1356,7 +1394,19 @@ class DetailTransaksi extends StatelessWidget {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
+                          return Center(
+                            child: SizedBox(
+                              width:
+                                  50.0, // Sesuaikan ukuran progres sesuai kebutuhan Anda
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.red),
+                                strokeWidth:
+                                    3.0, // Sesuaikan ketebalan garis sesuai kebutuhan Anda
+                              ),
+                            ),
+                          );
                         }
                         // Menampilkan data dalam bentuk list
                         return Column(

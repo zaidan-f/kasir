@@ -123,15 +123,15 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
             label: 'Beranda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
+            icon: Icon(Icons.people_sharp),
             label: 'Pelanggan',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.mail),
+            icon: Icon(Icons.archive),
             label: 'Produk',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.shopping_cart),
             label: 'Transaksi',
           ),
           BottomNavigationBarItem(
