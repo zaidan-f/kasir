@@ -6,6 +6,7 @@ import 'informasi_toko.dart';
 import 'kategoribarang.dart';
 import 'info_toko.dart';
 import 'profildetail_toko.dart';
+import 'transaksi_admin.dart';
 
 class DrawerWidget extends StatelessWidget {
   final User user;
@@ -42,7 +43,7 @@ class DrawerWidget extends StatelessWidget {
                     radius: 30,
                   ),
                   accountName: Text(
-                      'Selamat Datang, ${_auth.currentUser?.displayName ?? "Pengguna"}'),
+                      'Selamat Datang, ${_auth.currentUser?.displayName ?? "Admin"}'),
                   // accountEmail: Text('@${user?.displayName ?? 'Guest'}'),
                   accountEmail: Text(
                     _auth.currentUser?.email ?? "",
@@ -67,21 +68,21 @@ class DrawerWidget extends StatelessWidget {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped
                     Navigator.push(
                       context,
+                      MaterialPageRoute(builder: (context) => HalamanToko()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.category),
+                  title: Text('Kategori barang'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
                       MaterialPageRoute(builder: (context) => Kategoribarang()),
                     );
                   },
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.category),
-                //   title: Text('Kategori barang'),
-                //   onTap: () {
-                //     // Navigate to InformasiTokoScreen when the ListTile is tapped
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => Kategoribarang()),
-                //     );
-                //   },
-                // ),
                 Divider(height: 15, thickness: 1),
                 Padding(
                   padding:
@@ -92,17 +93,17 @@ class DrawerWidget extends StatelessWidget {
                         color: Colors.black54,
                       )),
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.settings),
-                //   title: Text('Informasi toko'),
-                //   onTap: () {
-                //     // Navigate to InformasiTokoScreen when the ListTile is tapped
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => Detailtoko()),
-                //     );
-                //   },
-                // ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Informasi toko'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Detailtoko()),
+                    );
+                  },
+                ),
 
                 ListTile(
                   leading: Icon(Icons.exit_to_app),

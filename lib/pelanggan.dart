@@ -211,8 +211,8 @@ import 'home_roma.dart';
 //   }
 // }
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Pelanggan extends StatefulWidget {
   @override
@@ -258,7 +258,6 @@ class _PelangganState extends State<Pelanggan> {
             itemBuilder: (context, index) {
               var data = customerList[index].data();
 
-              // var data = snapshot.data.docs[index];
               return Container(
                 margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                 decoration: BoxDecoration(
@@ -285,46 +284,17 @@ class _PelangganState extends State<Pelanggan> {
                       style: TextStyle(fontSize: 20)),
                   subtitle: Text(data['nomor_telepon'],
                       style: TextStyle(fontSize: 16)),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.info),
-                        onPressed: () {
-                          _showDetailPopUp(context, data);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          _navigateToUpdateForm(
-                              context, customerList[index].id);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          _showDeleteConfirmationDialog(
-                              context, customerList[index].id);
-                        },
-                      ),
-                    ],
+                  trailing: IconButton(
+                    icon: Icon(Icons.info),
+                    onPressed: () {
+                      _showDetailPopUp(context, data);
+                    },
                   ),
                 ),
               );
             },
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Tambahcus()),
-          );
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.red,
       ),
     );
   }
@@ -340,7 +310,6 @@ class _PelangganState extends State<Pelanggan> {
     return 'Alamat : $alamat, $kelurahan, Kec.$kecamatan, Kota $kota, $provinsi $kodepos';
   }
 
-  // Fungsi untuk menampilkan pop-up detail produk
   Future<void> _showDetailPopUp(
       BuildContext context, Map<String, dynamic> data) async {
     return showDialog<void>(
@@ -351,14 +320,10 @@ class _PelangganState extends State<Pelanggan> {
             children: [
               Icon(
                 Icons.info,
-                // color: Colors.red, // Warna ikon
               ),
-              SizedBox(width: 8), // Jarak antara ikon dan teks
+              SizedBox(width: 8),
               Text(
                 'Detail Pelanggan',
-                style: TextStyle(
-                    // color: Colors.red, // Warna teks
-                    ),
               ),
             ],
           ),
@@ -390,477 +355,73 @@ class _PelangganState extends State<Pelanggan> {
       },
     );
   }
-
-  void _navigateToUpdateForm(BuildContext context, String customerId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Tambahcus(id: customerId),
-      ),
-    );
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, String customerId) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            'Konfirmasi Hapus',
-            style: TextStyle(
-              color: Colors.red, // Warna teks
-            ),
-          ),
-          content: Text('Apakah Anda yakin ingin menghapus produk ini?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Batal',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                _deleteProduct(customerId);
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Hapus',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _deleteProduct(String customerId) {
-    pelanggan.doc(customerId).delete();
-  }
 }
 
-class Tambahcus extends StatefulWidget {
-  final String id;
-
-  const Tambahcus({Key key, this.id}) : super(key: key);
-
-  @override
-  _TambahcusState createState() => _TambahcusState();
-}
-
-class _TambahcusState extends State<Tambahcus> {
-  final _formKey = GlobalKey<FormState>();
-
-  var nameController = TextEditingController();
-  var alamatController = TextEditingController();
-  var kelurahanController = TextEditingController();
-  var kecamatanController = TextEditingController();
-  var kodeposController = TextEditingController();
-  var kotaController = TextEditingController();
-  var notlpController = TextEditingController();
-  var provinsiController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.id != null) {
-      getData();
-    }
-  }
-
-  void getData() async {
-    var snapshot = await FirebaseFirestore.instance
-        .collection('pelanggan')
-        .doc(widget.id)
-        .get();
-    var data = snapshot.data();
-    nameController.text = data['nama_pelanggan'];
-    alamatController.text = data['alamat_jalan'];
-    kelurahanController.text = data['alamat_kelurahandesa'];
-    kecamatanController.text = data['alamat_kecamatan'];
-    kodeposController.text = data['alamat_kodepos'];
-    kotaController.text = data['alamat_kabupatenkota'];
-    notlpController.text = data['nomor_telepon'];
-    provinsiController.text = data['alamat_provinsi'];
-  }
-
+class Tambahcus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.id != null ? 'Edit Pelanggan' : 'Tambah Pelanggan'),
+        title: Text('Tambah Pelanggan'),
         backgroundColor: Colors.red,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              SizedBox(height: 10),
-              Text(
-                'Nama pelanggan', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
+        child: ListView(
+          children: [
+            SizedBox(height: 10),
+            Text(
+              'Nama pelanggan',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            // Tambah field input nama pelanggan
+            TextFormField(
+              decoration: InputDecoration(
+                hintText: "Input nama pelanggan",
+                filled: true,
+                fillColor: Color(0xFFF1F4F8),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  hintText: "Input nama pelangan",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
+                primary: Colors.red,
               ),
-              SizedBox(height: 10),
-              Text(
-                'Nomor Telepon', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
+              onPressed: () {
+                // Implementasi simpan data ke Firestore
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Text('Simpan'),
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: notlpController,
-                decoration: InputDecoration(
-                  hintText: "Input nomor telepon",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Alamat jalan', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: alamatController,
-                decoration: InputDecoration(
-                  hintText: "Input alamat jalan",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Kelurahan', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: kelurahanController,
-                decoration: InputDecoration(
-                  hintText: "Input kelurahan",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Kecamatan', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: kecamatanController,
-                decoration: InputDecoration(
-                  hintText: "Input kecamatan",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Kota', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: kotaController,
-                decoration: InputDecoration(
-                  hintText: "Input kota",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Provinsi', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: provinsiController,
-                decoration: InputDecoration(
-                  hintText: "Input provinsi",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Kode pos', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: kodeposController,
-                decoration: InputDecoration(
-                  hintText: "Input kode pos",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  primary: Colors.red,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(widget.id != null ? 'Update' : 'Simpan'),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    if (widget.id == null) {
-                      FirebaseFirestore.instance.collection('pelanggan').add({
-                        'nama_pelanggan': nameController.text,
-                        'alamat_jalan': alamatController.text,
-                        'alamat_kelurahandesa': kelurahanController.text,
-                        'alamat_kecamatan': kecamatanController.text,
-                        'alamat_kodepos': kodeposController.text,
-                        'alamat_kabupatenkota': kotaController.text,
-                        'nomor_telepon': notlpController.text,
-                        'alamat_provinsi': provinsiController.text,
-                      });
-                    } else {
-                      FirebaseFirestore.instance
-                          .collection('pelanggan')
-                          .doc(widget.id)
-                          .update({
-                        'nama_pelanggan': nameController.text,
-                        'alamat_jalan': alamatController.text,
-                        'alamat_kelurahandesa': kelurahanController.text,
-                        'alamat_kecamatan': kecamatanController.text,
-                        'alamat_kodepos': kodeposController.text,
-                        'alamat_kabupatenkota': kotaController.text,
-                        'nomor_telepon': notlpController.text,
-                        'alamat_provinsi': provinsiController.text,
-                      });
-                    }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Data saved successfully!')),
-                    );
-                    Navigator.pop(context);
-                  }
-                },
-                // child: Text(widget.id != null ? 'Update' : 'Simpan'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: Pelanggan(),
+  ));
 }

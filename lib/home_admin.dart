@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'beranda.dart';
+import 'beranda_admin.dart';
 import 'detail_transaksi.dart';
 import 'pelanggan.dart';
+import 'pelanggan_admin.dart';
 import 'produk.dart';
 import 'transaksi.dart';
-import 'profil.dart';
-import 'drawer.dart';
-import 'list_barang_roma.dart';
+import 'drawer_admin.dart';
+import 'list_barang_admin.dart';
+import 'transaksi_admin.dart';
 import 'transaksi_roma.dart';
+import 'profil_admin.dart';
 
 User loggedinUser;
 
@@ -17,23 +19,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BelajarNavBar(),
+      home: HomeAdmin(),
     );
   }
 }
 
-class BelajarNavBar extends StatefulWidget {
+class HomeAdmin extends StatefulWidget {
   @override
-  _BelajarNavBarState createState() => _BelajarNavBarState();
+  _HomeAdminState createState() => _HomeAdminState();
 }
 
-class _BelajarNavBarState extends State<BelajarNavBar> {
+class _HomeAdminState extends State<HomeAdmin> {
   int _selectedNavbar = 0;
-  Widget _beranda = Beranda();
-  Widget _pelanggan = Pelanggan();
+  Widget _beranda = BerandaAdmin();
+  Widget _pelanggan = PelangganAdmin();
   Widget _produk = ListBarangWidget();
-  Widget _transaksi = TransaksiDetailWidget1();
-  Widget _profil = Profile();
+  Widget _transaksi = HalamanToko();
+  Widget _profil = ProfileAdmin();
 
   void _changeSelectedNavBar(int index) {
     setState(() {
@@ -94,16 +96,16 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
               // Navigator.push(context, route);
             },
           ),
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.comment,
-          //     color: Colors.white,
-          //   ),
-          //   onPressed: () {
-          //     // Route route = MaterialPageRoute(builder: (context) => Comment());
-          //     // Navigator.push(context, route);
-          //   },
-          // ),
+          IconButton(
+            icon: Icon(
+              Icons.comment,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // Route route = MaterialPageRoute(builder: (context) => Comment());
+              // Navigator.push(context, route);
+            },
+          ),
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -131,8 +133,8 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
             label: 'Produk',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Transaksi',
+            icon: Icon(Icons.store_rounded),
+            label: 'Toko',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

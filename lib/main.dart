@@ -5,6 +5,7 @@ import 'welcome_screen.dart';
 import 'signup_screen.dart';
 import 'login_screen.dart';
 import 'register_roma.dart';
+import 'home_admin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         'registration_screen': (context) => RegistrationPage(),
         'login_screen': (context) => LoginScreen(),
         'home_roma': (context) => BelajarNavBar(),
+         'home_admin': (context) => HomeAdmin(),
       },
     );
   }

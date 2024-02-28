@@ -137,27 +137,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Kategoribarang extends StatefulWidget {
-  @override
-  State<Kategoribarang> createState() => _KategoribarangState();
-}
-
-class _KategoribarangState extends State<Kategoribarang> {
+class Kategoribarang extends StatelessWidget {
   final FirebaseFirestore firebase = FirebaseFirestore.instance;
-  CollectionReference kategori =
-      FirebaseFirestore.instance.collection('kategori');
+  CollectionReference kategori = FirebaseFirestore.instance.collection('kategori');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), // Ikon kembali
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // Fungsi untuk kembali
+            Navigator.pop(context);
           },
         ),
-        title: Text('Kategori Barang'), // Judul AppBar
-        backgroundColor: Colors.red, // Warna latar belakang AppBar
+        title: Text('Kategori Barang'),
+        backgroundColor: Colors.red,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: kategori.snapshots(),
@@ -189,7 +184,6 @@ class _KategoribarangState extends State<Kategoribarang> {
             itemBuilder: (context, index) {
               var data = kategoriList[index].data();
 
-              // var data = snapshot.data.docs[index];
               return Container(
                 margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                 decoration: BoxDecoration(
@@ -205,45 +199,18 @@ class _KategoribarangState extends State<Kategoribarang> {
                   ],
                 ),
                 child: ListTile(
-                  // leading: CircleAvatar(
-                  //   backgroundColor: Colors.red,
-                  //   child: Text(
-                  //     data['nama_kat'][0],
-                  //     style: TextStyle(color: Colors.white),
-                  //   ),
-                  // ),
                   title: Text(data['nama_kat'], style: TextStyle(fontSize: 20)),
                   subtitle: Text(
                     data['deskripsi'],
                     style: TextStyle(fontSize: 16),
-                    maxLines: 1, // Batasi ke satu baris
-                    overflow: TextOverflow
-                        .ellipsis, // Tampilkan '...' jika melebihi batas
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.info),
-                        onPressed: () {
-                          _showDetailPopUp(context, data);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          _navigateToUpdateForm(
-                              context, kategoriList[index].id);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          _showDeleteConfirmationDialog(
-                              context, kategoriList[index].id);
-                        },
-                      ),
-                    ],
+                  trailing: IconButton(
+                    icon: Icon(Icons.info),
+                    onPressed: () {
+                      _showDetailPopUp(context, data);
+                    },
                   ),
                 ),
               );
@@ -251,22 +218,10 @@ class _KategoribarangState extends State<Kategoribarang> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Tambahkat()),
-          );
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.red,
-      ),
     );
   }
 
-  // Fungsi untuk menampilkan pop-up detail produk
-  Future<void> _showDetailPopUp(
-      BuildContext context, Map<String, dynamic> data) async {
+  Future<void> _showDetailPopUp(BuildContext context, Map<String, dynamic> data) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -275,14 +230,10 @@ class _KategoribarangState extends State<Kategoribarang> {
             children: [
               Icon(
                 Icons.info,
-                // color: Colors.red, // Warna ikon
               ),
-              SizedBox(width: 8), // Jarak antara ikon dan teks
+              SizedBox(width: 8),
               Text(
                 'Detail Kategori',
-                style: TextStyle(
-                    // color: Colors.red, // Warna teks
-                    ),
               ),
             ],
           ),
@@ -309,227 +260,6 @@ class _KategoribarangState extends State<Kategoribarang> {
           ],
         );
       },
-    );
-  }
-
-  void _navigateToUpdateForm(BuildContext context, String customerId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Tambahkat(id: customerId),
-      ),
-    );
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, String customerId) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            'Konfirmasi Hapus',
-            style: TextStyle(
-              color: Colors.red, // Warna teks
-            ),
-          ),
-          content: Text('Apakah Anda yakin ingin menghapus kategori ini?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Batal',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                _deleteProduct(customerId);
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Hapus',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _deleteProduct(String customerId) {
-    kategori.doc(customerId).delete();
-  }
-}
-
-class Tambahkat extends StatefulWidget {
-  final String id;
-
-  const Tambahkat({Key key, this.id}) : super(key: key);
-
-  @override
-  _TambahkatState createState() => _TambahkatState();
-}
-
-class _TambahkatState extends State<Tambahkat> {
-  final _formKey = GlobalKey<FormState>();
-
-  var nameController = TextEditingController();
-  var deskripsiController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.id != null) {
-      getData();
-    }
-  }
-
-  void getData() async {
-    var snapshot = await FirebaseFirestore.instance
-        .collection('kategori')
-        .doc(widget.id)
-        .get();
-    var data = snapshot.data();
-    nameController.text = data['nama_kat'];
-    deskripsiController.text = data['deskripsi'];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.id != null ? 'Edit Kategori' : 'Tambah Kategori'),
-        backgroundColor: Colors.red,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              SizedBox(height: 10),
-              Text(
-                'Nama Kategori', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  hintText: "Input nama kategori",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Deskripsi', // Add label for masa berlaku diskon
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: deskripsiController,
-                decoration: InputDecoration(
-                  hintText: "Input deskripsi kategori",
-                  filled: true,
-                  fillColor: Color(0xFFF1F4F8),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hapus border focus
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Harap isi bidang ini!';
-                  }
-                  return null;
-                },
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-                cursorColor: Colors.red,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  primary: Colors.red,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(widget.id != null ? 'Update' : 'Simpan'),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    if (widget.id == null) {
-                      FirebaseFirestore.instance.collection('kategori').add({
-                        'nama_kat': nameController.text,
-                        'deskripsi': deskripsiController.text,
-                      });
-                    } else {
-                      FirebaseFirestore.instance
-                          .collection('kategori')
-                          .doc(widget.id)
-                          .update({
-                        'nama_kat': nameController.text,
-                        'deskripsi': deskripsiController.text,
-                      });
-                    }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Data saved successfully!')),
-                    );
-                    Navigator.pop(context);
-                  }
-                },
-                // child: Text(widget.id != null ? 'Update' : 'Simpan'),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

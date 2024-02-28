@@ -116,7 +116,7 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DetailsTransaksiWidget extends StatelessWidget {
   final String idHeaderTransaksi;
@@ -150,7 +150,7 @@ class DetailsTransaksiWidget extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
 
-          List<DocumentSnapshot> detailTransaksiDocs = snapshot.data.docs;
+          List<QueryDocumentSnapshot> detailTransaksiDocs = snapshot.data.docs;
 
           return Center(
             child: Column(
@@ -163,44 +163,34 @@ class DetailsTransaksiWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                          padding: EdgeInsets.symmetric(vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Product',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text('Product', style: TextStyle(fontWeight: FontWeight.bold)),
                               SizedBox(width: 60),
-                              Text('Qty',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text('Qty', style: TextStyle(fontWeight: FontWeight.bold)),
                               SizedBox(width: 55),
-                              Text('Total',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text('Total', style: TextStyle(fontWeight: FontWeight.bold)),
                               SizedBox(width: 60),
-                              Text('Option',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text('Option', style: TextStyle(fontWeight: FontWeight.bold)),
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: detailTransaksiDocs.map((doc) {
-                              final productName = doc['nama_produk'];
-                              final quantity = doc['qty'];
-                              final total = doc['total'];
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: detailTransaksiDocs.map((doc) {
+                            final productName = doc['nama_produk'];
+                            final quantity = doc['qty'];
+                            final total = doc['total'];
 
-                              return _buildProductRow(
-                                  productName,
-                                  quantity.toString(),
-                                  total.toString(),
-                                  context);
-                            }).toList(),
-                          ),
+                            return _buildProductRow(
+                              productName.toString(),
+                              quantity.toString(),
+                              total.toString(),
+                              context,
+                            );
+                          }).toList(),
                         ),
                       ],
                     ),
@@ -221,7 +211,7 @@ class DetailsTransaksiWidget extends StatelessWidget {
     BuildContext context,
   ) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

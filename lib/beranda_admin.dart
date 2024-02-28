@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'detail_transaksi.dart';
-import 'home_roma.dart';
+import 'home_admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'profildetail.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 
-class Beranda extends StatelessWidget {
+class BerandaAdmin extends StatelessWidget {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -34,7 +34,18 @@ class Beranda extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(15, 20, 15, 15),
+              padding: EdgeInsets.all(15),
+              child: Text(
+                'Selamat Datang Admin!',
+                style: TextStyle(
+                  fontFamily: 'Readex Pro',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 15),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -142,7 +153,7 @@ class Beranda extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'RP 100.000.000',
+                                  'RP 100.000.000.000',
                                   style: TextStyle(
                                     fontSize: 22.0,
                                     fontFamily: 'Outfit',
@@ -193,7 +204,7 @@ class Beranda extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             5, 0, 0, 0),
                                         child: Text(
-                                          'Laporan',
+                                          'awikwoakokoakoke',
                                           style: TextStyle(
                                             fontSize: 14.0,
                                             fontFamily: 'Readex Pro',
@@ -455,6 +466,6 @@ class CustomCard extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: Beranda(),
+    home: BerandaAdmin(),
   ));
 }
