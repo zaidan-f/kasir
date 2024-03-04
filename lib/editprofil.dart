@@ -349,14 +349,14 @@ class _EditProfileState extends State<EditProfile> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: EdgeInsets.symmetric(
-                    vertical: 20, horizontal: 190), // Sesuaikan padding di sini
+                    vertical: 23, horizontal: 210), // Sesuaikan padding di sini
                 primary: Colors.red,
               ),
               onPressed: _updateUserData,
               child: Text(
-                'Simpan Perubahan',
+                'Simpan',
                 style: TextStyle(
-                  fontSize: 16, // Sesuaikan ukuran teks di sini
+                  fontSize: 14, // Sesuaikan ukuran teks di sini
                 ),
               ),
             ),

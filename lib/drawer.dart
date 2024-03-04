@@ -6,6 +6,7 @@ import 'informasi_toko.dart';
 import 'kategoribarang.dart';
 import 'info_toko.dart';
 import 'profildetail_toko.dart';
+import 'transaksi_roma.dart';
 
 class DrawerWidget extends StatelessWidget {
   final User user;
@@ -51,6 +52,17 @@ class DrawerWidget extends StatelessWidget {
                 // ... rest of the drawer items
                 ListTile(
                   leading: Icon(Icons.recent_actors),
+                  title: Text('Buat Transaksi'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TransaksiDetailWidget1()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.recent_actors),
                   title: Text('Riwayat transaksi'),
                   onTap: () {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped
@@ -71,17 +83,6 @@ class DrawerWidget extends StatelessWidget {
                     );
                   },
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.category),
-                //   title: Text('Kategori barang'),
-                //   onTap: () {
-                //     // Navigate to InformasiTokoScreen when the ListTile is tapped
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => Kategoribarang()),
-                //     );
-                //   },
-                // ),
                 Divider(height: 15, thickness: 1),
                 Padding(
                   padding:
@@ -92,17 +93,17 @@ class DrawerWidget extends StatelessWidget {
                         color: Colors.black54,
                       )),
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.settings),
-                //   title: Text('Informasi toko'),
-                //   onTap: () {
-                //     // Navigate to InformasiTokoScreen when the ListTile is tapped
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => Detailtoko()),
-                //     );
-                //   },
-                // ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Informasi toko'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Detailtoko()),
+                    );
+                  },
+                ),
 
                 ListTile(
                   leading: Icon(Icons.exit_to_app),

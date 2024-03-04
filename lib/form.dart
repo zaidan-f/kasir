@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'list_barang_roma.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 class FormPage extends StatefulWidget {
-  //constructor have one parameter, optional paramter
-  //if have id we will show data and run update method
-  //else run add data
   const FormPage({this.id});
 
   final String id;
@@ -15,6 +14,8 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
+  TextEditingController activeDiscountDateController = TextEditingController();
+  TextEditingController expirationDateController = TextEditingController();
   //set form key
   final _formKey = GlobalKey<FormState>();
 
@@ -25,8 +26,7 @@ class _FormPageState extends State<FormPage> {
   var hargabeliController = TextEditingController();
   var hargajualController = TextEditingController();
   var diskonController = TextEditingController(); // Controller for diskon
-  var masaBerlakuDiskonController =
-      TextEditingController(); // Controller for masa berlaku diskon
+  // Controller for expiration date
 
   //inisialize firebase instance
   FirebaseFirestore firebase = FirebaseFirestore.instance;
@@ -43,6 +43,22 @@ class _FormPageState extends State<FormPage> {
           .map((doc) => {"nama_kat": doc.id, ...doc.data()})
           .toList();
     });
+  }
+
+  Future<void> _selectDate(BuildContext context,
+      TextEditingController controller, String labelText) async {
+    DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+
+    if (picked != null && picked != DateTime.now()) {
+      setState(() {
+        controller.text = picked.toLocal().toString().split(' ')[0];
+      });
+    }
   }
 
   void getData() async {
@@ -68,9 +84,6 @@ class _FormPageState extends State<FormPage> {
         hargajualController = TextEditingController(text: item['harga_jual']);
         diskonController = TextEditingController(
             text: item['diskon'].toString()); // Fill diskon value if exists
-        masaBerlakuDiskonController = TextEditingController(
-            text: item['masa_berlaku_diskon']
-                .toString()); // Fill masa berlaku diskon value if exists
       });
     }
   }
@@ -159,23 +172,6 @@ class _FormPageState extends State<FormPage> {
             ),
           ),
           SizedBox(height: 10),
-          // DropdownButtonFormField(
-          //   value: _selectedKategori,
-          //   items: _kategori.map((kategori) {
-          //     return DropdownMenuItem(
-          //       value: kategori['nama_kat'],
-          //       child: Text(kategori['nama_kat']),
-          //     );
-          //   }).toList(),
-          //   onChanged: (value) {
-          //     setState(() {
-          //       _selectedKategori = value;
-          //     });
-          //   },
-          //   decoration: InputDecoration(
-          //     labelText: 'Select kategori',
-          //   ),
-          // ),
           DropdownButtonFormField(
             value: _selectedKategori,
             items: _kategori.map((kategori) {
@@ -359,7 +355,7 @@ class _FormPageState extends State<FormPage> {
           ),
           SizedBox(height: 20),
           Text(
-            'Masa Berlaku Diskon', // Add label for masa berlaku diskon
+            'Tanggal Aktif Diskon',
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[600],
@@ -368,32 +364,45 @@ class _FormPageState extends State<FormPage> {
           ),
           SizedBox(height: 10),
           TextFormField(
-            controller: masaBerlakuDiskonController,
+            controller: activeDiscountDateController,
+            readOnly: true,
             decoration: InputDecoration(
-              hintText: "Input masa berlaku diskon produk (hari)",
-              filled: true,
-              fillColor: Color(0xFFF1F4F8),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none, // Hapus border
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide.none, // Hapus border focus
-                borderRadius: BorderRadius.circular(10),
+              labelText: 'Active Discount Date',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.calendar_today),
+                onPressed: () => _selectDate(
+                    context,
+                    activeDiscountDateController,
+                    'Select Active Discount Date'),
               ),
             ),
             validator: (value) {
-              if (value.isEmpty) {
-                return 'Harap isi bidang ini!';
-              }
-              return null;
+              // Your validation logic...
             },
+          ),
+          Text(
+            'Tanggal Expired Diskon',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.bold,
             ),
-            cursorColor: Colors.red,
+          ),
+          SizedBox(height: 10),
+          TextFormField(
+            controller: expirationDateController,
+            readOnly: true,
+            decoration: InputDecoration(
+              labelText: 'Expiration Date',
+              suffixIcon: IconButton(
+                icon: Icon(Icons.calendar_today),
+                onPressed: () => _selectDate(context, expirationDateController,
+                    'Select Expiration Date'),
+              ),
+            ),
+            validator: (value) {
+              // Your validation logic...
+            },
           ),
           SizedBox(height: 20),
           ElevatedButton(
@@ -410,33 +419,38 @@ class _FormPageState extends State<FormPage> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
-                //if id not null run add data to store data into firebase
-                //else update data based on id
+                DateTime activeDiscountDate =
+                    DateTime.parse(activeDiscountDateController.text);
+                DateTime expirationDate =
+                    DateTime.parse(expirationDateController.text);
+
+                // Additional code to show date picker and update the respective controllers
+
                 if (widget.id == null) {
-                  produk.add({
-                    'nama_produk': nameController.text,
-                    'kategori_produk': _selectedKategori,
-                    'stok': stokController.text,
-                    'harga_beli': hargabeliController.text,
-                    'harga_jual': hargajualController.text,
-                    'diskon': diskonController.text, // Save diskon value
-                    'masa_berlaku_diskon': masaBerlakuDiskonController
-                        .text, // Save masa berlaku diskon value
-                  });
-                } else {
-                  produk.doc(widget.id).update({
-                    'nama_produk': nameController.text,
-                    'kategori_produk': _selectedKategori,
-                    'stok': stokController.text,
-                    'harga_beli': hargabeliController.text,
-                    'harga_jual': hargajualController.text,
-                    'diskon': diskonController.text, // Update diskon value
-                    'masa_berlaku_diskon': masaBerlakuDiskonController
-                        .text, // Update masa berlaku diskon value
-                  });
-                }
+  produk.add({
+    'nama_produk': nameController.text,
+    'kategori_produk': _selectedKategori,
+    'stok': int.parse(stokController.text),
+    'harga_beli': double.parse(hargabeliController.text),
+    'harga_jual': double.parse(hargajualController.text),
+    'diskon': double.parse(diskonController.text),
+    'active_discount_date': Timestamp.fromDate(activeDiscountDate),
+    'expiration_date': Timestamp.fromDate(expirationDate),
+  });
+} else {
+  produk.doc(widget.id).update({
+    'nama_produk': nameController.text,
+    'kategori_produk': _selectedKategori,
+    'stok': int.parse(stokController.text),
+    'harga_beli': double.parse(hargabeliController.text),
+    'harga_jual': double.parse(hargajualController.text),
+    'diskon': double.parse(diskonController.text),
+    'active_discount_date': Timestamp.fromDate(activeDiscountDate),
+    'expiration_date': Timestamp.fromDate(expirationDate),
+  });
+}
                 //snackbar notification
                 final snackBar =
                     SnackBar(content: Text('Data saved successfully!'));

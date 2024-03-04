@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ListBarangWidget extends StatelessWidget {
   final FirebaseFirestore firebase = FirebaseFirestore.instance;
@@ -90,7 +91,8 @@ class ListBarangWidget extends StatelessWidget {
               Text('Harga Beli: ${data['harga_beli']}'),
               Text('Harga Jual: ${data['harga_jual']}'),
               Text('Diskon: ${data['diskon']}'),
-              Text('Masa Berlaku Diskon: ${data['masa_berlaku_diskon']} hari'),
+              Text('Tanggal aktif diskon: ${data['active_discount_date'] != null ? DateFormat('dd/MM/yyyy').format(data['active_discount_date'].toDate()) : 'N/A'}'),
+              Text('Tanggal kadaluarsa diskon: ${data['expiration_date'] != null ? DateFormat('dd/MM/yyyy').format(data['expiration_date'].toDate()) : 'N/A'}'),
             ],
           ),
           actions: <Widget>[

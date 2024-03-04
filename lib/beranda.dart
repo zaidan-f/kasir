@@ -4,6 +4,7 @@ import 'home_roma.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'profildetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'transaksi_roma.dart';
 
 class Beranda extends StatelessWidget {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,8 +15,8 @@ class Beranda extends StatelessWidget {
     return querySnapshot.size;
   }
 
-  Future<int> _getTotalStores() async {
-    QuerySnapshot querySnapshot = await _firestore.collection('toko').get();
+  Future<int> _getTotalKategori() async {
+    QuerySnapshot querySnapshot = await _firestore.collection('kategori').get();
     return querySnapshot.size;
   }
 
@@ -207,49 +208,65 @@ class Beranda extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
-                                child: Container(
-                                  width: 100,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 4,
-                                        color: Color(0x33000000),
-                                        offset: Offset(0, 2),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_cart,
-                                        color: Colors.white,
-                                        size: 22,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5, 0, 0, 0),
-                                        child: Text(
-                                          'Transaksi',
-                                          style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontFamily: 'Readex Pro',
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+  child: Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
+    child: ElevatedButton(
+      onPressed: () {
+        // Handle onPress event here, misalnya navigasi ke halaman transaksi
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TransaksiDetailWidget1()),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+    primary: Colors.red, // Warna background tombol
+    elevation: 4, // Tingkat elevasi (shadow) tombol
+    minimumSize: Size(double.infinity, 45),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20), // Bentuk pinggiran tombol
+    ),
+  ),
+      child: Container(
+        // width: 150,
+        // height: 35,
+        // decoration: BoxDecoration(
+        //   color: Colors.red,
+        //   boxShadow: [
+        //     BoxShadow(
+        //       blurRadius: 4,
+        //       color: Color(0x33000000),
+        //       offset: Offset(0, 2),
+        //     )
+        //   ],
+        //   borderRadius: BorderRadius.circular(20),
+        // ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.shopping_cart,
+              color: Colors.white,
+              size: 22,
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
+              child: Text(
+                'Transaksi',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: 'Readex Pro',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ),
+),
+
                           ],
                         ),
                       ),
@@ -302,35 +319,8 @@ class Beranda extends StatelessWidget {
                   ),
                   Expanded(
                     child: CustomCard(
-                      title: 'Toko',
-                      valueFuture: _getTotalStores(),
-                      isTitleBold: true,
-                      color: Color(0xFFc42e1d),
-                      textColor: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(
-                  8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: CustomCard(
-                      title: '-------',
-                      value: '125415',
-                      isTitleBold: true,
-                      color: Color(0xFFc42e1d),
-                      textColor: Colors.white,
-                    ),
-                  ),
-                  Expanded(
-                    child: CustomCard(
-                      title: 'Pendapatan',
-                      value: '200',
+                      title: 'Kategori Barang',
+                      valueFuture: _getTotalKategori(),
                       isTitleBold: true,
                       color: Color(0xFFc42e1d),
                       textColor: Colors.white,

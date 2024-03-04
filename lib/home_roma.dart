@@ -9,6 +9,7 @@ import 'profil.dart';
 import 'drawer.dart';
 import 'list_barang_roma.dart';
 import 'transaksi_roma.dart';
+import 'page_detail_transaksi.dart';
 
 User loggedinUser;
 
@@ -32,7 +33,7 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
   Widget _beranda = Beranda();
   Widget _pelanggan = Pelanggan();
   Widget _produk = ListBarangWidget();
-  Widget _transaksi = TransaksiDetailWidget1();
+  Widget _transaksi = TransaksiList();
   Widget _profil = Profile();
 
   void _changeSelectedNavBar(int index) {
@@ -72,7 +73,7 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
             size: 30,
           ),
         ),
-        title: Text('DuraPOS'),
+        title: Text('DuraCASH'),
         actions: <Widget>[
           // IconButton(
           //   icon: Icon(

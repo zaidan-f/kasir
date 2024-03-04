@@ -137,12 +137,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Kategoribarang extends StatefulWidget {
+class KategoribarangAdmin extends StatefulWidget {
   @override
-  State<Kategoribarang> createState() => _KategoribarangState();
+  State<KategoribarangAdmin> createState() => _KategoribarangAdminState();
 }
 
-class _KategoribarangState extends State<Kategoribarang> {
+class _KategoribarangAdminState extends State<KategoribarangAdmin> {
   final FirebaseFirestore firebase = FirebaseFirestore.instance;
   CollectionReference kategori =
       FirebaseFirestore.instance.collection('kategori');

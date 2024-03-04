@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'home_roma.dart';
+import 'kategoribarang_admin.dart';
 import 'login_screen.dart';
 import 'informasi_toko.dart';
 import 'kategoribarang.dart';
@@ -79,7 +80,7 @@ class DrawerWidget extends StatelessWidget {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Kategoribarang()),
+                      MaterialPageRoute(builder: (context) => KategoribarangAdmin()),
                     );
                   },
                 ),

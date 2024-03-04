@@ -359,65 +359,139 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+              child: Text(
+                "Email",
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF1F4F8),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                        email = value;
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Input email',
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      ),
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                      cursorColor: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Text(
+                  "Password",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF1F4F8),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      obscureText: true,
+                      onChanged: (value) {
+                        password = value;
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Input password',
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      ),
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                      cursorColor: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
             // Email Input Field
-            TextField(
-              keyboardType: TextInputType.emailAddress,
-              textAlign: TextAlign.center,
-              onChanged: (value) {
-                email = value;
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your email',
-              ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            // Password Input Field
-            TextField(
-              obscureText: true,
-              textAlign: TextAlign.center,
-              onChanged: (value) {
-                password = value;
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your password.',
-              ),
-            ),
+            // TextField(
+            //   keyboardType: TextInputType.emailAddress,
+            //   textAlign: TextAlign.center,
+            //   onChanged: (value) {
+            //     email = value;
+            //   },
+            //   decoration: InputDecoration(
+            //     hintText: 'Enter your email',
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 8.0,
+            // ),
+            // // Password Input Field
+            // TextField(
+            //   obscureText: true,
+            //   textAlign: TextAlign.center,
+            //   onChanged: (value) {
+            //     password = value;
+            //   },
+            //   decoration: InputDecoration(
+            //     hintText: 'Enter your password.',
+            //   ),
+            // ),
             SizedBox(
               height: 24.0,
             ),
-            // Login Button
-            ElevatedButton(
-              onPressed: () async {
-                setState(() {
-                  showSpinner = true;
-                });
-                try {
-                  // Sign in with email and password
-                  final userCredential = await _auth.signInWithEmailAndPassword(
-                    email: email,
-                    password: password,
-                  );
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  try {
+                    // Sign in with email and password
+                    final userCredential = await _auth.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
 
-                  if (userCredential.user != null) {
-                    // Check if user exists in 'users' collection
-                    final userDoc = await _firestore.collection('users').doc(userCredential.user.uid).get();
-                    if (userDoc.exists) {
-                      Navigator.pushNamed(context, 'home_roma'); // User exists in 'users' collection
-                    } else {
-                      Navigator.pushNamed(context, 'home_admin'); // User exists in 'admin' collection
+                    if (userCredential.user != null) {
+                      // Check if user exists in 'users' collection
+                      final userDoc = await _firestore.collection('users').doc(userCredential.user.uid).get();
+                      if (userDoc.exists) {
+                        Navigator.pushNamed(context, 'home_roma'); // User exists in 'users' collection
+                      } else {
+                        Navigator.pushNamed(context, 'home_admin'); // User exists in 'admin' collection
+                      }
                     }
+                  } catch (e) {
+                    // Print any errors for debugging
+                    print(e);
                   }
-                } catch (e) {
-                  // Print any errors for debugging
-                  print(e);
-                }
-                setState(() {
-                  showSpinner = false;
-                });
-              },
-              child: Text('Log In'),
+                  setState(() {
+                    showSpinner = false;
+                  });
+                },
+                child: Text('Log In'),
+              ),
             ),
           ],
         ),

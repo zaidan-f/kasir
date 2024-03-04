@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'beranda_admin.dart';
 import 'detail_transaksi.dart';
 import 'pelanggan.dart';
-import 'pelanggan_admin.dart';
+// import 'pelanggan_admin.dart';
 import 'produk.dart';
 import 'transaksi.dart';
 import 'drawer_admin.dart';
@@ -14,7 +14,7 @@ import 'profil_admin.dart';
 
 User loggedinUser;
 
-class MyApp extends StatelessWidget {
+class MyAppAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +32,7 @@ class HomeAdmin extends StatefulWidget {
 class _HomeAdminState extends State<HomeAdmin> {
   int _selectedNavbar = 0;
   Widget _beranda = BerandaAdmin();
-  Widget _pelanggan = PelangganAdmin();
+  Widget _pelanggan = Pelanggan();
   Widget _produk = ListBarangWidget();
   Widget _transaksi = HalamanToko();
   Widget _profil = ProfileAdmin();
@@ -74,7 +74,7 @@ class _HomeAdminState extends State<HomeAdmin> {
             size: 30,
           ),
         ),
-        title: Text('DuraPOS'),
+        title: Text('DuraCASH'),
         actions: <Widget>[
           // IconButton(
           //   icon: Icon(

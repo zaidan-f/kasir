@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         'registration_screen': (context) => RegistrationPage(),
         'login_screen': (context) => LoginScreen(),
         'home_roma': (context) => BelajarNavBar(),
-         'home_admin': (context) => HomeAdmin(),
+        'home_admin': (context) => MyAppAdmin(),
       },
     );
   }
