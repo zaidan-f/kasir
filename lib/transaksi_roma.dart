@@ -1324,7 +1324,7 @@ class _CustomerFormState extends State<CustomerForm> {
                         _showNotification('Please select a customer.');
                       } else if (cart.items.isEmpty) {
                         _showNotification(
-                        'Cart is empty. Add items to the cart.');
+                            'Cart is empty. Add items to the cart.');
                       } else {
                         _saveData(cart.totalAmount, context);
                       }
@@ -1341,6 +1341,10 @@ class _CustomerFormState extends State<CustomerForm> {
             Text(
               'Produk Terpilih: ${cart.items.length}', // Display the number of items
               style: TextStyle(fontSize: 16.0),
+            ),
+            Text(
+              '*Diskon berlaku hanya untuk pelanggan member',
+              style: TextStyle(color: Colors.red),
             ),
             SizedBox(height: 5.0),
             Expanded(
