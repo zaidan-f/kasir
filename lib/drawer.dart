@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'home_roma.dart';
 import 'login_screen.dart';
-import 'informasi_toko.dart';
+import 'laporan_transaksi.dart';
 import 'kategoribarang.dart';
 import 'info_toko.dart';
 import 'profildetail_toko.dart';
@@ -51,7 +51,28 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 // ... rest of the drawer items
                 ListTile(
-                  leading: Icon(Icons.recent_actors),
+                  leading: Icon(Icons.category),
+                  title: Text('Kategori barang'),
+                  onTap: () {
+                    // Navigate to InformasiTokoScreen when the ListTile is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Kategoribarang()),
+                    );
+                  },
+                ),
+                Divider(height: 15, thickness: 1),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
+                  child: Text("Transaksi dan laporan",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      )),
+                ),
+                ListTile(
+                  leading: Icon(Icons.shopping_cart),
                   title: Text('Buat Transaksi'),
                   onTap: () {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped
@@ -62,7 +83,7 @@ class DrawerWidget extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.recent_actors),
+                  leading: Icon(Icons.history),
                   title: Text('Riwayat transaksi'),
                   onTap: () {
                     // Navigate to InformasiTokoScreen when the ListTile is tapped

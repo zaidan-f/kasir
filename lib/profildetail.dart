@@ -76,37 +76,25 @@ class Detailprofil extends StatelessWidget {
                             Align(
                               alignment: AlignmentDirectional(0, 0),
                               child: Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  // color: FlutterFlowTheme.of(context).accent2,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      // width: 4,
+                                    ),
                                     color: Colors.white,
-                                    width: 4,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.account_circle,
+                                      size:
+                                          100, // Set size ke 100 untuk lebar dan tinggi yang sama
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ),
-                                // child: ClipRRect(
-                                //   borderRadius: BorderRadius.circular(50),
-                                //   child: CachedNetworkImage(
-                                //     fadeInDuration: Duration(milliseconds: 500),
-                                //     fadeOutDuration: Duration(milliseconds: 500),
-                                //     imageUrl:
-                                //         'https://images.unsplash.com/photo-1489980557514-251d61e3eeb6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTZ8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
-                                //     width: 100,
-                                //     height: 100,
-                                //     fit: BoxFit.cover,
-                                //   ),
-                                // ),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Image.network(
-                                      'https://as2.ftcdn.net/v2/jpg/03/31/69/91/1000_F_331699188_lRpvqxO5QRtwOM05gR50ImaaJgBx68vi.jpg',
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    )),
-                              ),
                             ),
                             Text(
                               '${_auth.currentUser?.displayName ?? "Pengguna"}',
@@ -305,23 +293,23 @@ class Detailprofil extends StatelessWidget {
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            primary: Colors.red,
                           ),
-                          primary: Colors.red,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text('Edit profil'),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EditProfile()),
-                    );
-                        }
-                      )
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: Text('Edit profil'),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditProfile()),
+                            );
+                          })
                     ],
                   ),
                 );

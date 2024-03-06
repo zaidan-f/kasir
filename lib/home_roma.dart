@@ -73,7 +73,15 @@ class _BelajarNavBarState extends State<BelajarNavBar> {
             size: 30,
           ),
         ),
-        title: Text('DuraCASH'),
+        title: Text(
+          'DuraCash',
+          style: TextStyle(
+            fontFamily: 'Readex Pro',
+            // color: Colors.black,
+            fontSize: 25, // Ukuran teks 22px
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: <Widget>[
           // IconButton(
           //   icon: Icon(

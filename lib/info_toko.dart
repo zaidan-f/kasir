@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Beranda.dart'; // Sesuaikan dengan nama file dan path
+import 'beranda.dart'; // Sesuaikan dengan nama file dan path
 
 void main() {
   runApp(InfoToko());

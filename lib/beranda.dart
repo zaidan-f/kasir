@@ -21,7 +21,8 @@ class Beranda extends StatelessWidget {
   }
 
   Future<int> _getTotalCustomers() async {
-    QuerySnapshot querySnapshot = await _firestore.collection('pelanggan').get();
+    QuerySnapshot querySnapshot =
+        await _firestore.collection('pelanggan').get();
     return querySnapshot.size;
   }
 
@@ -208,65 +209,73 @@ class Beranda extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-  child: Padding(
-    padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
-    child: ElevatedButton(
-      onPressed: () {
-        // Handle onPress event here, misalnya navigasi ke halaman transaksi
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TransaksiDetailWidget1()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-    primary: Colors.red, // Warna background tombol
-    elevation: 4, // Tingkat elevasi (shadow) tombol
-    minimumSize: Size(double.infinity, 45),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20), // Bentuk pinggiran tombol
-    ),
-  ),
-      child: Container(
-        // width: 150,
-        // height: 35,
-        // decoration: BoxDecoration(
-        //   color: Colors.red,
-        //   boxShadow: [
-        //     BoxShadow(
-        //       blurRadius: 4,
-        //       color: Color(0x33000000),
-        //       offset: Offset(0, 2),
-        //     )
-        //   ],
-        //   borderRadius: BorderRadius.circular(20),
-        // ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-              size: 22,
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
-              child: Text(
-                'Transaksi',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontFamily: 'Readex Pro',
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ),
-),
-
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Handle onPress event here, misalnya navigasi ke halaman transaksi
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TransaksiDetailWidget1()),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary:
+                                        Colors.red, // Warna background tombol
+                                    elevation:
+                                        4, // Tingkat elevasi (shadow) tombol
+                                    minimumSize: Size(double.infinity, 45),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          20), // Bentuk pinggiran tombol
+                                    ),
+                                  ),
+                                  child: Container(
+                                    // width: 150,
+                                    // height: 35,
+                                    // decoration: BoxDecoration(
+                                    //   color: Colors.red,
+                                    //   boxShadow: [
+                                    //     BoxShadow(
+                                    //       blurRadius: 4,
+                                    //       color: Color(0x33000000),
+                                    //       offset: Offset(0, 2),
+                                    //     )
+                                    //   ],
+                                    //   borderRadius: BorderRadius.circular(20),
+                                    // ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_cart,
+                                          color: Colors.white,
+                                          size: 22,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  5, 0, 0, 0),
+                                          child: Text(
+                                            'Transaksi',
+                                            style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: 'Readex Pro',
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -276,8 +285,7 @@ class Beranda extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(
-                  8.0),
+              padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -303,8 +311,7 @@ class Beranda extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(
-                  8.0),
+              padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -417,25 +424,25 @@ class CustomCard extends StatelessWidget {
                       ),
                     ),
                   ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => DetailsTransaksiWidget(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFc42e1d),
-                  ),
-                  child: Text('Lihat Detail'),
-                ),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.bottomRight,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         Navigator.of(context).push(
+            //           MaterialPageRoute(
+            //             builder: (context) => DetailsTransaksiWidget(),
+            //           ),
+            //         );
+            //       },
+            //       style: ElevatedButton.styleFrom(
+            //         primary: Color(0xFFc42e1d),
+            //       ),
+            //       child: Text('Lihat Detail'),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

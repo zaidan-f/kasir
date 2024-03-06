@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'home_roma.dart';
 import 'kategoribarang_admin.dart';
 import 'login_screen.dart';
-import 'informasi_toko.dart';
+import 'laporan_transaksi.dart';
 import 'kategoribarang.dart';
 import 'info_toko.dart';
 import 'profildetail_toko.dart';

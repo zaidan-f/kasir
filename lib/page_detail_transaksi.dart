@@ -1047,13 +1047,13 @@ class TransaksiList extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     // Navigator.push(
-                                      // context,
-                                      // MaterialPageRoute(
-                                      //   builder: (context) =>
-                                      //       TransactionDetailPage(
-                                      //     headerTransactionId: headerTransactionId,
-                                      //   ),
-                                      // ),
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) =>
+                                    //         TransactionDetailPage(
+                                    //       headerTransactionId: headerTransactionId,
+                                    //     ),
+                                    //   ),
                                     // );
                                   },
                                   child: Ink(
